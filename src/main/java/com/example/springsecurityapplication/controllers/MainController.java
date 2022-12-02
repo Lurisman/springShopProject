@@ -49,14 +49,14 @@ public class MainController {
                 if (price.equals("sorted_by_ascending_price")) {
                     // Если категория товара не пустая
                     if (!category.isEmpty()) {
-                        // Если категория равная мебели
-                        if (category.equals("furniture")) {
+                        // Если категория равная ноутбукам
+                        if (category.equals("notebook")) {
                             model.addAttribute("search_product", productRepository.findByTitleAndCategoryOrderByPrice(search.toLowerCase(), Float.parseFloat(ot), Float.parseFloat(Do), 1));
-                            // Если категория равная бытовой техники
-                        } else if (category.equals("appliances")) {
+                            // Если категория равная телефонам
+                        } else if (category.equals("phone")) {
                             model.addAttribute("search_product", productRepository.findByTitleAndCategoryOrderByPrice(search.toLowerCase(), Float.parseFloat(ot), Float.parseFloat(Do), 2));
-                            // Если категория равная одежде
-                        } else if (category.equals("clothes")) {
+                            // Если категория равная умным часам
+                        } else if (category.equals("smartwatches")) {
                             model.addAttribute("search_product", productRepository.findByTitleAndCategoryOrderByPrice(search.toLowerCase(), Float.parseFloat(ot), Float.parseFloat(Do), 3));
                         }
                         // Если категория не выбрана
@@ -69,14 +69,14 @@ public class MainController {
 
                     // Если категория не пустая
                     if (!category.isEmpty()) {
-                        // Если категория равная мебели
-                        if (category.equals("furniture")) {
+                        // Если категория равная ноутбукам
+                        if (category.equals("notebook")) {
                             model.addAttribute("search_product", productRepository.findByTitleAndCategoryOrderByPriceDesc(search.toLowerCase(), Float.parseFloat(ot), Float.parseFloat(Do), 1));
-                            // Если категория равная бытовой техники
-                        } else if (category.equals("appliances")) {
+                            // Если категория равная телефонам
+                        } else if (category.equals("phone")) {
                             model.addAttribute("search_product", productRepository.findByTitleAndCategoryOrderByPriceDesc(search.toLowerCase(), Float.parseFloat(ot), Float.parseFloat(Do), 2));
-                            // Если категория равная одежде
-                        } else if (category.equals("clothes")) {
+                            // Если категория равная умным часам
+                        } else if (category.equals("smartwatches")) {
                             model.addAttribute("search_product", productRepository.findByTitleAndCategoryOrderByPriceDesc(search.toLowerCase(), Float.parseFloat(ot), Float.parseFloat(Do), 3));
                         }
                         // Если категория не выбрана
