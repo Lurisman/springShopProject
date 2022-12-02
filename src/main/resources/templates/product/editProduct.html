@@ -6,7 +6,7 @@
 </head>
 <body>
 <h3>Редактирование товара</h3>
-<form th:method="POST" th:action="@{/admin/product/edit/{id}(id=${editProduct.getId()})}" th:object="${editProduct}">
+<form th:method="POST" th:action="@{/seller/product/edit/{id}(id=${editProduct.getId()})}" th:object="${editProduct}">
     <label for="title">Введите наименование: </label>
     <input type="text" th:field="*{title}" placeholder="Наименование" id="title">
     <div style="color: red" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></div>

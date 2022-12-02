@@ -37,7 +37,8 @@ public class UserController {
 
     @GetMapping("/index")
     public String index(Model model){
-        // Получае объект аутентификации - > c помощью SecurityContextHolder обращаемся к контексту и на нем вызываем метод аутентификации. По сути из потока для текущего пользователя мы получаем объект, который был положен в сессию после аутентификации пользователя
+        // Получае объект аутентификации - > c помощью SecurityContextHolder обращаемся к контексту и на нем вызываем метод аутентификации. По сути из потока для текущего пользователя мы получаем объект, который был положен в сессию после
+        // аутентификации пользователя
 //        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 //
 //        // Преобразовываем объект аутентификации в специальный объект класса по работе с пользователями
@@ -46,7 +47,8 @@ public class UserController {
 //        System.out.println("Логин пользователя: " + personDetails.getPerson().getLogin());
 //        System.out.println("Пароль пользователя: " + personDetails.getPerson().getPassword());
 
-        // Получае объект аутентификации - > c помощью SecurityContextHolder обращаемся к контексту и на нем вызываем метод аутентификации. По сути из потока для текущего пользователя мы получаем объект, который был положен в сессию после аутентификации пользователя
+        // Получае объект аутентификации - > c помощью SecurityContextHolder обращаемся к контексту и на нем вызываем метод аутентификации. По сути из потока для текущего пользователя мы получаем объект, который был положен в сессию после
+        // аутентификации пользователя
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         // Преобразовываем объект аутентификации в специальный объект класса по работе с пользователями
@@ -56,6 +58,9 @@ public class UserController {
 
         if(role.equals("ROLE_ADMIN")){
             return "redirect:/admin";
+        }
+        else if(role.equals("ROLE_SELLER")){
+            return "redirect:/seller";
         }
         model.addAttribute("products", productService.getAllProduct());
         return "user/index";
