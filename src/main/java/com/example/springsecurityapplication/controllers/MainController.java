@@ -34,7 +34,8 @@ public class MainController {
     }
 
     @PostMapping("/search")
-    public String productSearch(@RequestParam("search") String search, @RequestParam("ot") String ot, @RequestParam("do") String Do, @RequestParam(value = "price", required = false, defaultValue = "") String price,
+    public String productSearch(@RequestParam("search") String search, @RequestParam("ot") String ot,
+                                @RequestParam("do") String Do, @RequestParam(value = "price", required = false, defaultValue = "") String price,
                                 @RequestParam(value = "category", required = false, defaultValue = "") String category, Model model){
         System.out.println(search);
         System.out.println(ot);
