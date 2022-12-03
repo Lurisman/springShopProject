@@ -34,4 +34,8 @@ public class PersonService {
         person.setRole("ROLE_USER");
         personRepository.save(person);
     }
+    @Transactional
+    public void changePassword(int id, String password) {
+        personRepository.updatePersonById(id, passwordEncoder.encode(password));
+    }
 }

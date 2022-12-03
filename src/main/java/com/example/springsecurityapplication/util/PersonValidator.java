@@ -3,6 +3,7 @@ package com.example.springsecurityapplication.util;
 import com.example.springsecurityapplication.models.Person;
 import com.example.springsecurityapplication.services.PersonService;
 import org.springframework.stereotype.Component;
+import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
@@ -26,6 +27,13 @@ public class PersonValidator implements Validator {
         // Если метод по поиску пользователя по логину не равен 0 тогда такой логин уже занят
         if(personService.getPersonFindByLogin(person) != null){
             errors.rejectValue("login", "", "Логин занят");
+        }
+    }
+
+        public void findUser(Object target, Errors errors) {
+        Person person = (Person) target;
+        if(personService.getPersonFindByLogin(person)==null){
+            errors.rejectValue("login", "", "Такой пользователь не найден");
         }
     }
 }

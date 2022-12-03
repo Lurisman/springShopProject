@@ -4,7 +4,6 @@ import com.example.springsecurityapplication.models.Person;
 import com.example.springsecurityapplication.services.PersonService;
 import com.example.springsecurityapplication.util.PersonValidator;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -50,5 +49,26 @@ public class AuthController {
         return "redirect:/index";
     }
 
+    @GetMapping("/changePasswordALL")
+    public String changePassword(Model model){
+        model.addAttribute("person", new Person());
+        return "changePasswordAll";
+    }
+
+    @PostMapping("/changePasswordALL")
+    public String changePassword(@ModelAttribute("person") @Valid Person person, BindingResult bindingResult){
+        personValidator.findUser(person, bindingResult);
+        Person person_db = personService.getPersonFindByLogin(person);
+
+        if(bindingResult.hasErrors()){
+            return "changePasswordAll";
+        }
+
+        int id = person_db.getId();
+        String password = person.getPassword();
+
+        personService.changePassword(id, password);
+        return "redirect:/admin";
+    }
 
 }
