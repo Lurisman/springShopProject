@@ -16,7 +16,7 @@
 <form method="get" th:action="@{/orders}">
     <input type="submit" value="Заказы">
 </form>
-<form th:method="POST" th:action="@{/product/search}">
+<form th:method="POST" th:action="@{/search}">
     <fieldset>
         <legend>Выберите параметры для сортировки, поиска, фильтрации</legend>
         <br>
@@ -60,6 +60,7 @@
     <a th:href="@{/product/info/{id}(id=${product.getId()})}" th:text="${product.getTitle()}"></a>
     <p th:text="'Цена: ' + ${product.getPrice()}"></p>
 </div>
+<hr>
 <br><hr>
 <h3>Доступные товары: </h3>
 <div th:each="product : ${products}">
