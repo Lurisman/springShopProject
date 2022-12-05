@@ -12,6 +12,6 @@ public interface PersonRepository extends JpaRepository<Person, Integer> {
     Optional<Person> findByLogin(String login);
 
     @Modifying
-    @Query(value = "UPDATE person SET password = ?2 WHERE id = ?1", nativeQuery = true)
-    void updatePersonById(int id, String encode);
+    @Query(value = "UPDATE person SET password = ?2 WHERE id= ?1", nativeQuery = true)
+    void updatePersonById(int id, String password);
 }

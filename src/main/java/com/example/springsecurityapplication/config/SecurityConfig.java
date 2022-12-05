@@ -59,7 +59,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // Указываем что не аутентифицированные пользователи могут заходить на страницу с формой аутентификации и на объект ошибки
                 // С помощью permitAll указывакем что данные страницы по умолчанию доступны всем пользователям
                 .antMatchers("/auth/login", "/error", "/auth/registration", "/product", "/product/info/{id}", "/img" +
-                        "/**", "/product/search").permitAll()
+                        "/**", "/product/search", "/auth/password/change").permitAll()
                 // Указываем что все остальные страницы доступны пользователю с ролью user и admin
                 .anyRequest().hasAnyRole("USER", "ADMIN", "SELLER")
 //                // Указываем что для всех остальных страниц необходимо вызывать метод authenticated, который открываем форму аутентификации
@@ -75,7 +75,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .defaultSuccessUrl("/index", true)
                 // Указываем куда необходимо перенаправить пользователя при проваленной аутентификации
                 // В url будет передан объект. Данный объект мы будем проверять на форме и если он есть будет выводить сообщение "Неправильный логин или пароль"
-                .failureUrl("/auth/login")
+                .failureUrl("/auth/login?error")
                 .and()
                 // Указываем что при переходе на  /logout будет очищена сессия пользовате и перенаправление на /auth/login
                 .logout().logoutUrl("/logout").logoutSuccessUrl("/auth/login");

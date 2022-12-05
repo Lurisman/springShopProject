@@ -35,7 +35,7 @@ public class PersonService {
         personRepository.save(person);
     }
     @Transactional
-    public void changePassword(int id, String password) {
+    public void changePassword(int id, String password){
         personRepository.updatePersonById(id, passwordEncoder.encode(password));
     }
 }

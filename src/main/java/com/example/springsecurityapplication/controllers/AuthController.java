@@ -49,26 +49,28 @@ public class AuthController {
         return "redirect:/index";
     }
 
-    @GetMapping("/changePasswordALL")
+    @GetMapping("/password/change")
     public String changePassword(Model model){
         model.addAttribute("person", new Person());
-        return "changePasswordAll";
+        return "password";
     }
 
-    @PostMapping("/changePasswordALL")
+    @PostMapping("/password/change")
     public String changePassword(@ModelAttribute("person") @Valid Person person, BindingResult bindingResult){
-        personValidator.findUser(person, bindingResult);
-        Person person_db = personService.getPersonFindByLogin(person);
 
+        personValidator.findUser(person, bindingResult);
         if(bindingResult.hasErrors()){
-            return "changePasswordAll";
+            return "password";
         }
+
+        Person person_db = personService.getPersonFindByLogin(person);
 
         int id = person_db.getId();
         String password = person.getPassword();
-
         personService.changePassword(id, password);
-        return "redirect:/admin";
+
+        return "redirect:/index";
     }
+
 
 }
