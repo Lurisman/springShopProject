@@ -219,4 +219,6 @@ public class UserController {
         model.addAttribute("products", productService.getAllProduct());
         return "/user/index";
     }
+
+
 }

@@ -78,4 +78,6 @@ public class PersonService {
         return person.orElse(null);
     }
 
+    public void updateRole(Person personRole) {
+    }
 }
