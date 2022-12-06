@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import java.util.List;
 
 import java.util.Optional;
 
@@ -38,4 +39,43 @@ public class PersonService {
     public void changePassword(int id, String password){
         personRepository.updatePersonById(id, passwordEncoder.encode(password));
     }
+
+    // Данный метод позволяет получить всех пользователей
+    public List<Person> getAllPerson(){
+        return personRepository.findAll();
+    }
+
+    // Данный метод позволяет получить пользователя по id
+    public Person getPersonById(int id){
+        Optional<Person> optionalPerson = personRepository.findById(id);
+        return optionalPerson.orElse(null);
+    }
+
+    // Данный метод позволяет обновить данные пользователя
+    @Transactional
+    public void updatePerson(int id, Person person){
+        person.setId(id);
+        personRepository.save(person);
+    }
+
+    // Данный метод позволяет удалить пользовател по id
+    @Transactional
+    public void deletePerson(int id){
+        personRepository.deleteById(id);
+    }
+
+    //    SEARCHING and FILTER
+
+    // Данный метод позволяет получить пользователя по Login
+    public Person getPersonLogin(String login){
+        Optional<Person> person = personRepository.findByLogin(login);
+        return person.orElse(null);
+    }
+
+    // Данный метод позволяет получить пользователя по Role
+    public Person getPersonRole(String role){
+        Optional<Person> person = personRepository.findByRole(role);
+        return person.orElse(null);
+    }
+
 }

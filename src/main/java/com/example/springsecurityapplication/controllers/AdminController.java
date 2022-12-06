@@ -1,9 +1,11 @@
 package com.example.springsecurityapplication.controllers;
 
 import com.example.springsecurityapplication.models.Image;
+import com.example.springsecurityapplication.models.Person;
 import com.example.springsecurityapplication.models.Product;
 import com.example.springsecurityapplication.repositories.CategoryRepository;
 import com.example.springsecurityapplication.security.PersonDetails;
+import com.example.springsecurityapplication.services.PersonService;
 import com.example.springsecurityapplication.services.ProductService;
 import com.example.springsecurityapplication.util.ProductValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,14 +31,16 @@ public class AdminController {
     private final ProductValidator productValidator;
     private final ProductService productService;
     private final CategoryRepository categoryRepository;
+    private final PersonService personService;
     @Value("${upload.path}")
     private String uploadPath;
 
     @Autowired
-    public AdminController(ProductValidator productValidator, ProductService productService, CategoryRepository categoryRepository) {
+    public AdminController(ProductValidator productValidator, ProductService productService, CategoryRepository categoryRepository, PersonService personService) {
         this.productValidator = productValidator;
         this.productService = productService;
         this.categoryRepository = categoryRepository;
+        this.personService = personService;
     }
 
     //    @PreAuthorize("hasRole('ROLE_ADMIN') and hasRole('')")
@@ -210,5 +214,60 @@ public class AdminController {
         return "redirect:/admin";
     }
 
+    // Метод возвращает страницу с выводом пользователей и кладет объект пользователя в модель
+    @GetMapping("/person")
+    public String person(Model model) {
+        ;
+        model.addAttribute("person", personService.getAllPerson());
+        return "person/person";
+    }
+
+    // Метод возвращает страницу с подробной информацией о пользователе
+    @GetMapping("/person/info/{id}")
+    public String infoPerson(@PathVariable("id") int id, Model model) {
+        model.addAttribute("person", personService.getPersonById(id));
+        return "person/personInfo";
+    }
+
+    // Метод возвращает страницу с формой редактирования пользователя и помещает в модель объект редактируемого пользователя по id
+    @GetMapping("/person/edit/{id}")
+    public String editPerson(@PathVariable("id") int id, Model model) {
+        model.addAttribute("editPerson", personService.getPersonById(id));
+        return "person/editPerson";
+    }
+
+
+    // Метод принимает объект с формы и обновляет пользователя
+    @PostMapping("/person/edit/{id}")
+    public String editPerson(@ModelAttribute("editPerson") @Valid Person person, BindingResult bindingResult, @PathVariable("id") int id) {
+        if (bindingResult.hasErrors()) {
+            return "person/editPerson";
+        }
+        personService.updatePerson(id, person);
+        return "redirect:/admin/person";
+    }
+
+    // Метод по удалению пользователей
+    @GetMapping("/person/delete/{id}")
+    public String deletePerson(@PathVariable("id") int id) {
+        personService.deletePerson(id);
+        return "redirect:/admin/person";
+    }
+
+    // Метод по нажатию на кнопку поиска и сортировки и отображение шаблона
+    @GetMapping("/person/sorting_and_searching_and_filters")
+    public String sorting_and_searching_and_filters() {
+        return "person/SortingAndSearchingAndFilters";
+    }
+
+    @PostMapping("/person/sorting_and_searching_and_filters")
+    public String sorting_and_searching_and_filters(@RequestParam("SortingAndSearchingAndFiltersOptions") String sortingAndSearchingAndFiltersOptions, @RequestParam("value") String value, Model model) {
+        if (sortingAndSearchingAndFiltersOptions.equals("login")) {
+            model.addAttribute("person", personService.getPersonLogin(value));
+        } else if (sortingAndSearchingAndFiltersOptions.equals("role")) {
+            model.addAttribute("person", personService.getPersonRole(value));
+        }
+            return "person/SortingAndSearchingAndFilters";
+        }
 
 }

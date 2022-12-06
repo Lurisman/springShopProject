@@ -10,7 +10,12 @@
     <input type="submit" value="Выйти из личного кабинета">
 </form>
 <br>
-<a href="/auth/password/change">Изменить пользователя</a>
+<form method="get" th:action="@{/auth/password/changepersonal}">
+    <input type="submit" value="Изменить свой пароль (Personal)">
+</form>
+<br>
+<a href="/admin/person">Пользователи</a>
+<br>
 <hr>
 <br>
 <a href="/admin/product/add">Добавить товар</a>
