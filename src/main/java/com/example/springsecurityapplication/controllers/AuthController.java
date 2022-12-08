@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 // http:localhost:8080/auth/login
+
 @Controller
 @RequestMapping("/auth")
 public class AuthController {
@@ -73,7 +74,7 @@ public class AuthController {
     public String changePasswordPersonal(Model model){
         model.addAttribute("person", new Person());
         model.addAttribute("login", SecurityContextHolder.getContext().getAuthentication().getName());
-        return "passwordpersonal";
+        return "passwordPersonal";
     }
 
     @PostMapping("/password/changepersonal")
@@ -81,7 +82,7 @@ public class AuthController {
         personValidator.findUser(person, bindingResult);
         if(bindingResult.hasErrors()){
             model.addAttribute("login", SecurityContextHolder.getContext().getAuthentication().getName());
-            return "passwordpersonal";
+            return "passwordPersonal";
         }
 
         Person person_db = personService.getPersonFindByLogin(person);

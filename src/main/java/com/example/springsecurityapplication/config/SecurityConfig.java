@@ -52,7 +52,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         // Отключаем защиту от межсайтовой подделки запросов
         http
                 // Указываем что все страницы должны быть защищены аутентификации
-                .authorizeRequests()
+                .authorizeHttpRequests()
                 // Указываем что /admin доступин пользователю с ролью администратора
 //                .antMatchers("/admin").hasAnyRole("ADMIN")
 //                .antMatchers("/user").hasAnyRole("USER")
