@@ -11,6 +11,9 @@ import java.util.Optional;
 public interface PersonRepository extends JpaRepository<Person, Integer> {
     // Получаем запись из БД по логину
     Optional<Person> findByLogin(String login);
+    Optional<Person> findByEmail(String email);
+    Optional<Person> findByPhoneNumber(String phone_number);
+    Optional<Person> findByLastnameStartingWith(String starting_with);
 
 
     @Modifying

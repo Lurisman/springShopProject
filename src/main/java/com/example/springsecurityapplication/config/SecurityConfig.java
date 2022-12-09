@@ -1,7 +1,6 @@
 package com.example.springsecurityapplication.config;
 
 //import com.example.springsecurityapplication.security.AuthenticationProvider;
-
 import com.example.springsecurityapplication.services.PersonDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;

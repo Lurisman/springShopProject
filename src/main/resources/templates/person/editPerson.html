@@ -7,42 +7,47 @@
 <body>
 <h3>Редактирование пользователей</h3>
 <form method="POST" th:action="@{/admin/person/edit/{id}(id=${editPerson.getId()})}" th:object="${editPerson}">
-  <label for="login">Введите логин: </label>
-  <input type="text" th:field="*{login}" id="login">
+  <label for="login">Укажите логин: </label>
+  <input type="text" th:field="*{login}" id="login" readonly="readonly"> (недоступно для изменения)
   <div style="color: red" th:if="${#fields.hasErrors('login')}" th:errors="*{login}"></div>
   <br>
-  <label for="password">Введите пароль: </label>
-  <input type="text" th:field="*{password}" id="password">
+  <label for="password">Укажите пароль: </label>
+  <input type="text" th:field="*{password}" id="password" readonly="readonly"> (недоступно для изменения)
   <div style="color: red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
   <br>
-  <label for="role">Введите роль: </label>
-  <input type="text" th:field="*{role}" id="role">
+  <label for="role">Смените роль: </label>
+  <select th:field="*{role}" name="role" id="role">
+    <option th:value="ROLE_USER" th:text="Пользователь"
+            th:selected="${editPerson.getRole()} == 'ROLE_USER' ? true : false" ></option>
+    <option th:value="ROLE_SELLER" th:text="Продавец"
+            th:selected="${editPerson.getRole()} == 'ROLE_SELLER' ? true : false"></option>
+    <option th:value="ROLE_ADMIN" th:text="Администратор"
+            th:selected="${editPerson.getRole()} == 'ROLE_ADMIN' ? true : false"></option>
+  </select>
+  <br>
   <div style="color: red" th:if="${#fields.hasErrors('role')}" th:errors="*{role}"></div>
   <br>
-  <!--  <label for="last_name">Введите фамилию: </label>-->
-  <!--  <input type="text" th:field="*{lastname}" id="last_name">-->
-  <!--  <div style="color: red" th:if="${#fields.hasErrors('lastname')}" th:errors="*{lastname}"></div>-->
-  <!--  <br>-->
-  <!--  <label for="first_name">Введите имя: </label>-->
-  <!--  <input type="text" th:field="*{firstname}" id="first_name">-->
-  <!--  <div style="color: red" th:if="${#fields.hasErrors('firstname')}" th:errors="*{firstname}"></div>-->
-  <!--  <br>-->
-  <!--  <label for="patronymic">Введите отчество: </label>-->
-  <!--  <input type="text" th:field="*{patronymic}" id="patronymic">-->
-  <!--  <br>-->
-  <!--  <label for="birthday">Введите возраст: </label>-->
-  <!--  <input type="date" th:field="*{birthday}" id="birthday">-->
-  <!--  <div style="color: red" th:if="${#fields.hasErrors('birthday')}" th:errors="*{birthday}"></div>-->
-  <!--  <br>-->
-  <!--  <label for="email">Введите email: </label>-->
-  <!--  <input type="text" th:field="*{email}" id="email">-->
-  <!--  <div style="color: red" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>-->
-  <!--  <br>-->
-  <!--  <label for="phone_number">Введите номер телефона: </label>-->
-  <!--  <input type="text" th:field="*{phoneNumber}" id="phone_number">-->
-  <!--  <div style="color: red" th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}"></div>-->
-  <!--  <br>-->
-  <input type="submit" value="Редактировать">
+  <label for="first_name">Имя: </label>
+  <input type="text" th:field="*{firstname}" id="first_name">
+  <div style="color: red" th:if="${#fields.hasErrors('firstname')}" th:errors="*{firstname}"></div>
+  <br>
+  <label for="last_name">Фамилия: </label>
+  <input type="text" th:field="*{lastname}" id="last_name">
+  <div style="color: red" th:if="${#fields.hasErrors('lastname')}" th:errors="*{lastname}"></div>
+  <br>
+  <label for="email">Email: </label>
+  <input type="text" th:field="*{email}" id="email">
+  <div style="color: red" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
+  <br>
+  <label for="phone_number">Номер телефона: </label>
+  <input type="text" th:field="*{phoneNumber}" id="phone_number">
+  <div style="color: red" th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}"></div>
+  <br>
+  <input type="submit" value="Сохранить изменения">
 </form>
+<hr>
+<a href="/admin/person">Назад ко всем пользователям</a>
+<hr>
+<a href="/index">Назад в Главное меню</a>
 </body>
 </html>

@@ -12,7 +12,6 @@ import com.example.springsecurityapplication.services.ProductService;
 import com.example.springsecurityapplication.util.ProductValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.Banner;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -32,13 +31,14 @@ import java.util.UUID;
 //@PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")
 public class AdminController {
 
+    @Value("${upload.path}")
+    private String uploadPath;
+
     private final ProductValidator productValidator;
     private final ProductService productService;
     private final CategoryRepository categoryRepository;
     private final PersonService personService;
     private final OrderRepository orderRepository;
-    @Value("${upload.path}")
-    private String uploadPath;
 
     @Autowired
     public AdminController(ProductValidator productValidator, ProductService productService, CategoryRepository categoryRepository, OrderRepository orderRepository, PersonService personService) {
@@ -63,13 +63,16 @@ public class AdminController {
         if (role.equals("ROLE_USER")) {
             return "redirect:/index";
         }
+        if(role.equals("ROLE_SELLER")){
+            return "redirect:/seller";
+        }
         model.addAttribute("products", productService.getAllProduct());
         return "admin/admin";
     }
 
     // Метод по отображению формы добавление
     @GetMapping("/product/add")
-    public String addProduct(Model model) {
+    public String addProduct(Model model){
         model.addAttribute("product", new Product());
         model.addAttribute("category", categoryRepository.findAll());
 //        System.out.println(categoryRepository.findAll().size());
@@ -245,8 +248,7 @@ public class AdminController {
 
     // Метод возвращает страницу с выводом пользователей и кладет объект пользователя в модель
     @GetMapping("/person")
-    public String person(Model model) {
-        ;
+    public String person(Model model){
         model.addAttribute("person", personService.getAllPerson());
         return "person/person";
     }
@@ -267,12 +269,12 @@ public class AdminController {
 
 
     // Метод принимает объект с формы и обновляет пользователя
-    @PostMapping("/person/edit/{id}")
-    public String editPerson(@ModelAttribute("editPerson") @Valid Person person, BindingResult bindingResult, @PathVariable("id") int id) {
-        if (bindingResult.hasErrors()) {
-            return "person/editPerson";
-        }
-        personService.updatePerson(id, person);
+    @PostMapping("/person/editrole/{id}")
+    public String editPersonRole(@ModelAttribute("editPerson") @Valid Person person, BindingResult bindingResult, @RequestParam("role") String role, @PathVariable("id") int id){
+        Person person_role = personService.getPersonById(id);
+//        person_role.setRole(role);
+        personService.updatePersonRole(role, person_role);
+
         return "redirect:/admin/person";
     }
 
@@ -290,12 +292,18 @@ public class AdminController {
     }
 
     @PostMapping("/person/sorting_and_searching_and_filters")
-    public String sorting_and_searching_and_filters(@RequestParam("SortingAndSearchingAndFiltersOptions") String sortingAndSearchingAndFiltersOptions, @RequestParam("value") String value, Model model) {
-        if (sortingAndSearchingAndFiltersOptions.equals("login")) {
+    public String sorting_and_searching_and_filters(@RequestParam("SortingAndSearchingAndFiltersOptions") String sortingAndSearchingAndFiltersOptions, @RequestParam("value") String value, Model model){
+        if(sortingAndSearchingAndFiltersOptions.equals("login")) {
             model.addAttribute("person", personService.getPersonLogin(value));
-        } else if (sortingAndSearchingAndFiltersOptions.equals("role")) {
+        } else if (sortingAndSearchingAndFiltersOptions.equals("role")){
             model.addAttribute("person", personService.getPersonRole(value));
+        } else if (sortingAndSearchingAndFiltersOptions.equals("email")){
+            model.addAttribute("person",personService.getPersonEmail(value));
+        } else if (sortingAndSearchingAndFiltersOptions.equals("phone_number")) {
+            model.addAttribute("person",personService.getPersonPhoneNumber(value));
+        } else if (sortingAndSearchingAndFiltersOptions.equals("last_name_start")) {
+            model.addAttribute("person",personService.getPersonLastNameStartingWith(value));
         }
-            return "person/SortingAndSearchingAndFilters";
-        }
+        return "person/SortingAndSearchingAndFilters";
+    }
 }
