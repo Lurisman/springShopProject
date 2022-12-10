@@ -16,6 +16,13 @@ public class OrderService {
 
     private final OrderRepository orderRepository;
 
+    @Transactional
+    public Order getAllOrders(int id, Order order) {
+        order.setId(id);
+        orderRepository.save(order);
+        return order;
+    }
+
     @Autowired
     public OrderService(OrderRepository orderRepository) {
         this.orderRepository = orderRepository;
@@ -25,10 +32,18 @@ public class OrderService {
         return orderRepository.findAll();
     }
 
-    public List<Order> getOrderByNumberEndingWith(String ending_with){
-        List<Order> optionalOrders = orderRepository.findByNumberEndingWithIgnoreCase(ending_with);
-        return optionalOrders;
+    @Transactional
+    public void updateOrder(int id, Order order) {
+        order.setId(id);
+        orderRepository.save(order);
     }
+
+        @Transactional
+        public void updateOrderStatus(Order order) {
+            orderRepository.save(order);
+        }
+
+
 
     public Order getOrderById(int id){
         Optional<Order> optionalOrder = orderRepository.findById(id);

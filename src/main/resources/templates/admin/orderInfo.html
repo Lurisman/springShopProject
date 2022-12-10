@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Информация о товаре</title>
+
+  <link th:href="@{/assets/dist/css/bootstrap.min.css}" rel="stylesheet">
+
+</head>
+<body class="bg-light">
+<div class="container">
+  <main>
+    <div class="py-5 text-center">
+
+      <a href="/index" class="btn btn-secondary btn-lg" type="button">Вернуться на главную</a>
+
+    </div>
+    <div class="py-5 text-center">
+      <img class="d-block mx-auto mb-4" th:src="@{/assets/brand/logo.png}" alt="" width="72" height="57">
+
+<form th:method="POST" th:action="@{/admin/orders/{id}(id=${info_order.getId()})}" th:object="${info_order}">
+
+  <div th:each="order:${info_order}">
+    <h3>Информация о заказе <p th:text="${info_order.getNumber()}"/></h3>
+    <p th:text="'id=' + ${order.getId()}"></p>
+    <p th:text="'DateTime: ' + ${order.getDateTime()}"></p>
+    <p th:text="'Наименование товаров: ' + ${order.getProduct().getTitle()}"></p>
+    <p th:text="'Количество: ' + ${order.getCount()}"></p>
+    <p th:text="'Цена: ' + ${order.getPrice()}"></p>
+    <p>Покупатель:  <a th:href="@{/admin/person/info/{id}(id=${order.getPerson().getId()})}" th:text="${order.getPerson().getLogin()}"></a></p>
+    <p th:text="'Заказ № ' + ${order.getNumber()}"></p>
+    <p th:text="'Дата заказа: ' + ${#temporals.format(order.getDateTime(), 'dd-MMM-yyyy')}"></p>
+    <p th:text="'Статус: ' + ${order.getStatus()}"></p>
+
+
+    <label for="status" >Изменить статус: </label>
+    <select id="status" name="status">
+      <option th:each="state : ${T(com.example.springsecurityapplication.enumm.Status).values()}"
+              th:value="${state}" th:text="${state}"></option>
+    </select>
+<!--    <a class="label"  href="/admin/orders" style="width:100%;">Просмотр</a>-->
+    <button class="btn btn-primary" type="submit">Изменить
+    </button>
+
+  </div>
+
+</form>
+</div>
+</body>
+</html>

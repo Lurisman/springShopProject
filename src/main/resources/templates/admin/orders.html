@@ -88,20 +88,31 @@
             <th>Стоимость</th>
             <th>Номер заказа</th>
             <th>Статус (текущий)</th>
+            <th>Смена статуса</th>
             <th></th>
           </tr>
           </thead>
           <tbody>
-          <form method="POST" th:action="@{/admin/order/editstatus/{id}(id=${order.getId()})}" th:each="order : ${orders}">
+          <form method="POST" th:action="@{/admin/orders/{id}(id=${order.getId()})}" th:each="order : ${orders}">
 
             <tr>
-              <td><a th:href="@{/admin/order/info/{id}(id=${order.getId()})}" th:text="${order.getId()}"></a></td>
+              <td><a th:href="@{/admin/orders/{id}(id=${order.getId()})}" th:text="${order.getId()}"></a></td>
               <td th:text="${order.getDateTime()}"></td>
               <td th:text="${order.getProduct().getTitle()}"></td>
               <td th:text="${order.getCount()}"></td>
               <td th:text="${order.getPrice()}"></td>
               <td th:text="${order.getNumber()}"></td>
               <td th:text="${order.getStatus()}"></td>
+              <td>
+                <select id="status" name="status">
+                <option th:each="state : ${T(com.example.springsecurityapplication.enumm.Status).values()}"
+                        th:value="${state}" th:text="${state}"></option>
+              </select>
+              </td>
+              <td>
+                <button id="change" class="btn btn-outline-warning" type="submit">Изменить
+                </button>
+              </td>
             </tr>
 
           </form>

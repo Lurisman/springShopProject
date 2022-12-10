@@ -1,5 +1,6 @@
 package com.example.springsecurityapplication.controllers;
 
+import com.example.springsecurityapplication.enumm.Status;
 import com.example.springsecurityapplication.models.Image;
 import com.example.springsecurityapplication.models.Order;
 import com.example.springsecurityapplication.models.Person;
@@ -7,6 +8,7 @@ import com.example.springsecurityapplication.models.Product;
 import com.example.springsecurityapplication.repositories.CategoryRepository;
 import com.example.springsecurityapplication.repositories.OrderRepository;
 import com.example.springsecurityapplication.security.PersonDetails;
+import com.example.springsecurityapplication.services.OrderService;
 import com.example.springsecurityapplication.services.PersonService;
 import com.example.springsecurityapplication.services.ProductService;
 import com.example.springsecurityapplication.util.ProductValidator;
@@ -39,14 +41,18 @@ public class AdminController {
     private final CategoryRepository categoryRepository;
     private final PersonService personService;
     private final OrderRepository orderRepository;
+    private final OrderService orderService;
 
     @Autowired
-    public AdminController(ProductValidator productValidator, ProductService productService, CategoryRepository categoryRepository, OrderRepository orderRepository, PersonService personService) {
+    public AdminController(ProductValidator productValidator, ProductService productService,
+                           CategoryRepository categoryRepository, OrderRepository orderRepository,
+                           PersonService personService, OrderService orderService) {
         this.productValidator = productValidator;
         this.productService = productService;
         this.categoryRepository = categoryRepository;
         this.orderRepository = orderRepository;
         this.personService = personService;
+        this.orderService = orderService;
     }
 
     //    @PreAuthorize("hasRole('ROLE_ADMIN') and hasRole('')")
@@ -67,6 +73,7 @@ public class AdminController {
             return "redirect:/seller";
         }
         model.addAttribute("products", productService.getAllProduct());
+        model.addAttribute("orders", orderService.getAllOrders());
         return "admin/admin";
     }
 
@@ -229,9 +236,12 @@ public class AdminController {
     @GetMapping("/orders")
     public String ordersAdmin(Model model){
         List<Order> orderList = orderRepository.findAll();
-        model.addAttribute("orders", orderList);
+//        model.addAttribute("orders", orderList);
+        model.addAttribute("orders", orderService.getAllOrders());
+        model.addAttribute("orders", orderService.getAllOrders());
         return "/admin/orders";
     }
+
 
     @PostMapping("/orders/search")
     public String orderSearch(@RequestParam("search_value") String search, Model model){
@@ -245,6 +255,20 @@ public class AdminController {
         model.addAttribute("orders", orderRepository.findAll());
         return "/admin/orders";
     }
+
+    @GetMapping("/orders/{id}")
+    public String editOrder(@PathVariable("id")int id, Model model) {
+        model.addAttribute("info_order", orderService.getOrderById(id));
+        return "/admin/orderinfo";
+    }
+
+        @PostMapping("/orders/{id}")
+        public String changeStatus(@PathVariable("id") int id, @RequestParam("status") Status status){
+            Order order_status=orderService.getOrderById(id);
+            order_status.setStatus(status);
+            orderService.updateOrderStatus(order_status);
+            return "redirect:/admin/orders/";
+        }
 
     // Метод возвращает страницу с выводом пользователей и кладет объект пользователя в модель
     @GetMapping("/person")
