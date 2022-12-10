@@ -2,38 +2,144 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Админ панель</title>
+    <title>Главная</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="/examples/libs/jquery/jquery-3.6.0.min.js"></script>
+    <script src="/examples/libs/bootstrap-4/js/bootstrap.bundle.js"></script>
+    <link th:href="@{/assets/dist/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/assets/start.css}" rel="stylesheet">
+    <link th:href="@{/assets/header.css}" rel="stylesheet">
+    <link th:href="@{/assets/product.css}" rel="stylesheet">
 </head>
 <body>
-<h3>Личный кабинет администратора</h3>
-<form th:method="POST" th:action="@{/logout}">
-    <input type="submit" value="Выйти из личного кабинета">
-</form>
-<br>
-<form method="get" th:action="@{/auth/password/changepersonal}">
-    <input type="submit" value="Изменить свой пароль (Personal)">
-</form>
-<br>
-<a href="/admin/person">Пользователи</a>
-<br>
-<hr>
-<a href="/admin/orders">Заказы</a>
-<br>
-<br>
-<a href="/admin/product/add">Добавить товар</a>
-<h3>Каталог товаров: </h3>
-<hr>
-<div th:each="product : ${products}">
-    <img th:src="'/img/' + ${product.imageList[0].getFileName()}" width="300px">
-    <p th:text="'Наименование: ' + ${product.getTitle()}"></p>
-    <p th:text="'Описание: ' + ${product.getDescription()}"></p>
-    <p th:text="'Цена: ' + ${product.getPrice()}"></p>
-    <p th:text="'Склад: ' + ${product.getWarehouse()}"></p>
-    <p th:text="'Продавец: ' + ${product.getSeller()}"></p>
-    <p th:text="'Категория товара: ' + ${product.getCategory().getName()}"></p>
-    <a th:href="@{/admin/product/edit/{id}(id=${product.getId()})}">Редактировать товар</a>
-    <a th:href="@{/admin/product/delete/{id}(id=${product.getId()})}">Удалить товар</a>
-    <hr>
+
+<div class="container">
+    <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
+        <a href="/index" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
+            <img class="mb-4" th:src="@{/assets/brand/logo.png}" alt="" width="48" height="36">
+            <span class="mb-3"><h3>&nbsp;	Ultimate Shop</h3></span>
+        </a>
+
+        <ul class="nav nav-pills">
+
+            <li
+                    class="nav-item"><a th:href="@{/admin/person}" class="nav-link" aria-current="page">Пользователи
+            </a></li>
+            <li
+                    class="nav-item"><a th:href="@{/admin/orders}" class="nav-link" aria-current="page">Заказы</a></li>
+            <li
+                    class="nav-item"><a th:href="@{/auth/password/changepersonal}" class="nav-link"
+                                        aria-current="page">Свой
+                пароль</a></li>
+            <li
+                    class="nav-item"><a th:href="@{/admin/product/add}" class="nav-link" aria-current="page">Добавить товар</a></li>
+            <li class="nav-item"><a th:href="@{/auth/login}" class="nav-link" aria-current="page">Выйти</a></li>
+        </ul>
+    </header>
 </div>
+<main>
+    <div class="d-md-flex flex-md-equal w-100 my-md-3 ps-md-3">
+        <div class="bg-light me-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden">
+            <div class="my-3 p-3">
+                <h2 class="display-5">Pixel 7 Pro</h2>
+                <p class="lead"><b>Цена: 69999.0</b></p>
+                <a href="/admin/product/edit/1" class="btn btn-outline-warning" type="button">Редактировать</a>
+                <a href="/product/info/1" class="btn btn-outline-info" type="button">Подробнее</a>
+                <a href="/cart/add/1" class="btn btn-outline-primary" type="button">Добавить в корзину</a>
+            </div>
+            <div class="bg-body shadow-sm mx-auto" style="width: 300px; height: 100%; border-radius: 21px 21px 0 0;"><img
+                    src="/img/be9c00a6-d69a-461a-ad60-425d5d54050d.pixel7pro1.jpg" width="300px"></div>
+
+        </div>
+        <div class="bg-light me-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden">
+            <div class="my-3 py-3">
+                <h2 class="display-5">Pixel 7</h2>
+                <p class="lead"> <b>Цена: 49999.0</b></p>
+                <a href="/admin/product/edit/4" class="btn btn-outline-warning" type="button">Редактировать</a>
+                <a href="/product/info/4" class="btn btn-outline-info" type="button">Подробнее</a>
+                <a href="/cart/add/4" class="btn btn-outline-primary" type="button">Добавить в корзину</a>
+            </div>
+            <div class="bg-body shadow-sm mx-auto" style="width: 300px; height: 100%; border-radius: 21px 21px 0 0;"><img src="/img/61b44aa4-8537-40af-928e-a0ebe08ba731.1.jpg" width="300px"></div>
+        </div>
+        <div class="bg-light me-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden">
+            <div class="my-3 py-3">
+                <h2 class="display-5">Pixel 6a</h2>
+                <p class="lead"><b>Цена: 29990.0</b></p>
+                <a href="/admin/product/edit/5" class="btn btn-outline-warning" type="button">Редактировать</a>
+                <a href="/product/info/5" class="btn btn-outline-info" type="button">Подробнее</a>
+                <a href="/cart/add/5" class="btn btn-outline-primary" type="button">Добавить в корзину</a>
+            </div>
+            <div class="bg-body shadow-sm mx-auto" style="width: 300px; height: 100%; border-radius: 21px 21px 0 0;"><img src="/img/aba3708d-8ffd-48db-a687-a6f63a9cc0ac.1.jpg" width="300px"></div>
+        </div>
+    </div>
+
+    <div class="d-md-flex flex-md-equal w-100 my-md-3 ps-md-3">
+        <div class="bg-light me-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden">
+            <div class="my-3 p-3">
+                <h2 class="display-5">Pixelbook Go</h2>
+                <p class="lead"><b>Цена: 55450.0</b></p>
+                <a href="/admin/product/edit/6" class="btn btn-outline-warning" type="button">Редактировать</a>
+                <a href="/product/info/6" class="btn btn-outline-info" type="button">Подробнее</a>
+                <a href="/cart/add/6" class="btn btn-outline-primary" type="button">Добавить в корзину</a>
+            </div>
+            <div class="bg-body shadow-sm mx-auto"
+                 style="width: 300px; height: 100%; border-radius: 21px 21px 0 0;"><img src="/img/b66d3346-b2b7-46ae-89ca-1629712a1787.1.jpg" width="300px"></div>
+        </div>
+        <div class="bg-light me-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden">
+            <div class="my-3 py-3">
+                <h2 class="display-5">Samsung Galaxy Chromebook 2</h2>
+                <p class="lead"> <b>Цена: 29000.0</b></p>
+                <a href="/admin/product/edit/7" class="btn btn-outline-warning" type="button">Редактировать</a>
+                <a href="/product/info/7" class="btn btn-outline-info" type="button">Подробнее</a>
+                <a href="/cart/add/7" class="btn btn-outline-primary" type="button">Добавить в корзину</a>
+            </div>
+            <div class="bg-body shadow-sm mx-auto" style="width: 300px; height: 100%; border-radius: 21px 21px 0 0;"><img src="/img/8e570b03-fbac-42a7-a2f5-283ec12dd001.1.jpg" width="300px"></div>
+        </div>
+        <div class="bg-light me-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden">
+            <div class="my-3 py-3">
+                <h2 class="display-5">HP Chromebook</h2>
+                <p class="lead"><b>Цена: 29000.0</b></p>
+                <a href="/admin/product/edit/8" class="btn btn-outline-warning" type="button">Редактировать</a>
+                <a href="/product/info/8" class="btn btn-outline-info" type="button">Подробнее</a>
+                <a href="/cart/add/8" class="btn btn-outline-primary" type="button">Добавить в корзину</a>
+            </div>
+            <div class="bg-body shadow-sm mx-auto" style="width: 300px; height: 100%; border-radius: 21px 21px 0 0;"><img src="/img/396e9b91-08b4-4974-be68-72dc53117abb.1.jpg" width="300px"></div>
+        </div>
+    </div>
+
+    <div class="d-md-flex flex-md-equal w-100 my-md-3 ps-md-3">
+        <div class="bg-light me-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden">
+            <div class="my-3 p-3">
+                <h2 class="display-5">Pixel Watch Black</h2>
+                <p class="lead"><b>Цена: 32900.0</b></p>
+                <a href="/admin/product/edit/9" class="btn btn-outline-warning" type="button">Редактировать</a>
+                <a href="/product/info/9" class="btn btn-outline-info" type="button">Подробнее</a>
+                <a href="/cart/add/9" class="btn btn-outline-primary" type="button">Добавить в корзину</a>
+            </div>
+            <div class="bg-body shadow-sm mx-auto"
+                 style="width: 300px; height: 100%; border-radius: 21px 21px 0 0;"><img src="/img/e8902a38-7b6a-48f0-b447-76eb77af9a06.1.jpg" width="300px">></div>
+        </div>
+        <div class="bg-light me-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden">
+            <div class="my-3 py-3">
+                <h2 class="display-5">Pixel Watch Gold</h2>
+                <p class="lead"> <b>Цена: 34900.0</b></p>
+                <a href="/admin/product/edit/10" class="btn btn-outline-warning" type="button">Редактировать</a>
+                <a href="/product/info/10" class="btn btn-outline-info" type="button">Подробнее</a>
+                <a href="/cart/add/10" class="btn btn-outline-primary" type="button">Добавить в корзину</a>
+            </div>
+            <div class="bg-body shadow-sm mx-auto" style="width: 300px; height: 100%; border-radius: 21px 21px 0 0;"><img src="/img/362cb45b-38a3-4d76-95ad-6b241b548f50.1.jpg" width="300px"></div>
+        </div>
+        <div class="bg-light me-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden">
+            <div class="my-3 py-3">
+                <h2 class="display-5">Pixel Watch Silver</h2>
+                <p class="lead"><b>Цена: 33900.0</b></p>
+                <a href="/admin/product/edit/11" class="btn btn-outline-warning" type="button">Редактировать</a>
+                <a href="/product/info/11" class="btn btn-outline-info" type="button">Подробнее</a>
+                <a href="/cart/add/11" class="btn btn-outline-primary" type="button">Добавить в корзину</a>
+            </div>
+            <div class="bg-body shadow-sm mx-auto" style="width: 300px; height: 100%; border-radius: 21px 21px 0 0;"><img src="/img/b47b49d0-c654-4bea-ac81-34a9dc9e52f6.1.jpg" width="300px"></div>
+        </div>
+    </div>
+</main>
 </body>
 </html>

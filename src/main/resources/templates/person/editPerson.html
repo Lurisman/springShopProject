@@ -1,21 +1,54 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>Редактирование пользователей</title>
-</head>
-<body>
-<h3>Редактирование пользователей</h3>
+  <title>Панель продавца</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="/examples/libs/jquery/jquery-3.6.0.min.js"></script>
+  <script src="/examples/libs/bootstrap-4/js/bootstrap.bundle.js"></script>
+  <link th:href="@{/assets/dist/css/bootstrap.min.css}" rel="stylesheet">
+  <link th:href="@{/assets/start.css}" rel="stylesheet">
+  <link th:href="@{/assets/header.css}" rel="stylesheet">
+  <link th:href="@{/assets/product.css}" rel="stylesheet">
+
+<body class="text-center">
+
+<div class="container">
+  <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
+    <a href="/seller" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
+      <img class="mb-4" th:src="@{/assets/brand/logo.png}" alt="" width="48" height="36">
+      <span class="mb-3"><h3>&nbsp;	Ultimate Shop</h3></span>
+    </a>
+
+    <ul class="nav nav-pills">
+      <li
+              class="nav-item"><a th:href="@{/admin/person}" class="nav-link" aria-current="page">Пользователи
+      </a></li>
+      <li
+              class="nav-item"><a th:href="@{/admin/orders}" class="nav-link" aria-current="page">Заказы</a></li>
+      <li
+              class="nav-item"><a th:href="@{/auth/password/changepersonal}" class="nav-link"
+                                  aria-current="page">Свой
+        пароль</a></li>
+      <li
+              class="nav-item"><a th:href="@{/admin/product/add}" class="nav-link" aria-current="page">Добавить товар</a></li>
+      <li class="nav-item"><a th:href="@{/auth/login}" class="nav-link" aria-current="page">Выйти</a></li>
+    </ul>
+  </header>
+</div>
+
+
+
 <form method="POST" th:action="@{/admin/person/edit/{id}(id=${editPerson.getId()})}" th:object="${editPerson}">
-  <label for="login">Укажите логин: </label>
-  <input type="text" th:field="*{login}" id="login" readonly="readonly"> (недоступно для изменения)
+  <label for="login">Логин (нельзя менять): </label><br>
+  <input type="text" th:field="*{login}" id="login" readonly="readonly"><br>
   <div style="color: red" th:if="${#fields.hasErrors('login')}" th:errors="*{login}"></div>
   <br>
-  <label for="password">Укажите пароль: </label>
-  <input type="text" th:field="*{password}" id="password" readonly="readonly"> (недоступно для изменения)
+  <label for="password">Пароль (нельзя менять): </label><br>
+  <input type="text" th:field="*{password}" id="password" readonly="readonly"> <br>
   <div style="color: red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
   <br>
-  <label for="role">Смените роль: </label>
+  <label for="role">Смените роль: </label><br>
   <select th:field="*{role}" name="role" id="role">
     <option th:value="ROLE_USER" th:text="Пользователь"
             th:selected="${editPerson.getRole()} == 'ROLE_USER' ? true : false" ></option>
@@ -27,27 +60,25 @@
   <br>
   <div style="color: red" th:if="${#fields.hasErrors('role')}" th:errors="*{role}"></div>
   <br>
-  <label for="first_name">Имя: </label>
+  <label for="first_name">Имя: </label><br>
   <input type="text" th:field="*{firstname}" id="first_name">
   <div style="color: red" th:if="${#fields.hasErrors('firstname')}" th:errors="*{firstname}"></div>
   <br>
-  <label for="last_name">Фамилия: </label>
+  <label for="last_name">Фамилия: </label><br>
   <input type="text" th:field="*{lastname}" id="last_name">
   <div style="color: red" th:if="${#fields.hasErrors('lastname')}" th:errors="*{lastname}"></div>
   <br>
-  <label for="email">Email: </label>
+  <label for="email">Email: </label><br>
   <input type="text" th:field="*{email}" id="email">
   <div style="color: red" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
   <br>
-  <label for="phone_number">Номер телефона: </label>
+  <label for="phone_number">Номер телефона: </label><br>
   <input type="text" th:field="*{phoneNumber}" id="phone_number">
   <div style="color: red" th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}"></div>
-  <br>
-  <input type="submit" value="Сохранить изменения">
+  <br><br>
+  <button class="btn btn-warning" type="submit">Примениь изменения
+  </button>
 </form>
-<hr>
-<a href="/admin/person">Назад ко всем пользователям</a>
-<hr>
-<a href="/index">Назад в Главное меню</a>
+
 </body>
 </html>

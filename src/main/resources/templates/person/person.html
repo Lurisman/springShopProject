@@ -1,62 +1,100 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>Пользователи</title>
-
+  <title>Изменение пользователей</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="/examples/libs/jquery/jquery-3.6.0.min.js"></script>
+  <script src="/examples/libs/bootstrap-4/js/bootstrap.bundle.js"></script>
+  <link th:href="@{/assets/dist/css/bootstrap.min.css}" rel="stylesheet">
+  <link th:href="@{/assets/start.css}" rel="stylesheet">
+  <link th:href="@{/assets/header.css}" rel="stylesheet">
+  <link th:href="@{/assets/product.css}" rel="stylesheet">
 </head>
 <body>
-<h3>Список пользователей: </h3>
 
-<table>
-  <thead>
-  <tr>
-    <th>id</th>
-    <th>Логин</th>
-    <th>Имя</th>
-    <th>Фамилия</th>
-    <th>Email</th>
-    <th>Телефон</th>
-    <th>Роль (текущая)</th>
-    <th>Новая роль</th>
-    <th></th>
-  </tr>
-  </thead>
-  <tbody>
-  <form method="POST" th:action="@{/admin/person/editrole/{id}(id=${user.getId()})}" th:each="user : ${person}">
+<div class="container">
+  <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
+    <a href="/index" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
+      <img class="mb-4" th:src="@{/assets/brand/logo.png}" alt="" width="48" height="36">
+      <span class="mb-3"><h3>&nbsp;	Ultimate Shop</h3></span>
+    </a>
 
-    <tr>
-      <td><a th:href="@{/admin/person/info/{id}(id=${user.getId()})}" th:text="${user.getId()}"></a></td>
-      <td><a th:href="@{/admin/person/info/{id}(id=${user.getId()})}" th:text="${user.getLogin()}"></a></td>
-      <!--                <td th:text="${user.getPassword()}"></td>-->
-      <td th:text="${user.getFirstname()}"></td>
-      <td th:text="${user.getLastname()}"></td>
-      <td th:text="${user.getEmail()}"></td>
-      <td th:text="${user.getPhoneNumber()}"></td>
-      <td th:text="${user.getRole()}"></td>
-      <td>
-        <select name="role" id="role">
-          <option th:value="ROLE_USER" th:text="Пользователь"
-                  th:selected="${user.getRole()} == 'ROLE_USER' ? true : false" ></option>
-          <option th:value="ROLE_SELLER" th:text="Продавец"
-                  th:selected="${user.getRole()} == 'ROLE_SELLER' ? true : false"></option>
-          <option th:value="ROLE_ADMIN" th:text="Администратор"
-                  th:selected="${user.getRole()} == 'ROLE_ADMIN' ? true : false"></option>
-        </select>
-      </td>
-      <td>
-        <button type="submit">Изменить</button>
-      </td>
-    </tr>
+    <ul class="nav nav-pills">
 
-  </form>
-  </tbody>
-</table>
+      <li
+              class="nav-item"><a th:href="@{/admin/person}" class="nav-link active" aria-current="page">Пользователи
+      </a></li>
+      <li
+              class="nav-item"><a th:href="@{/admin/orders}" class="nav-link" aria-current="page">Заказы</a></li>
+      <li
+              class="nav-item"><a th:href="@{/auth/password/changepersonal}" class="nav-link"
+                                  aria-current="page">Свой
+        пароль</a></li>
+      <li
+              class="nav-item"><a th:href="@{/admin/product/add}" class="nav-link" aria-current="page">Добавить товар</a></li>
+      <li class="nav-item"><a th:href="@{/auth/login}" class="nav-link" aria-current="page">Выйти</a></li>
+    </ul>
+  </header>
+</div>
 
-<hr>
-<a href="/admin/person/sorting_and_searching_and_filters">Поиск, сортировка, фильтрация</a>
-<hr>
-<a href="/index">Назад в Главное меню</a>
+<div class="px-4 py-5 my-5 text-center">
+
+  <h1 class="display-5 fw-bold">Все пользователи</h1>
+  <div class="col-lg-6 mx-auto">
+    <p class="lead mb-4">Здесь можно увидеть всю информацию о пользователях и изменить роли.</p> <p>Для получения
+    подробной
+    информации — нажмите на id или логин</p>
+    <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+      <table>
+        <thead>
+        <tr>
+          <th>id</th>
+          <th>Логин</th>
+          <th>Имя</th>
+          <th>Фамилия</th>
+          <th>Email</th>
+          <th>Телефон</th>
+          <th>Роль (текущая)</th>
+          <th>Новая роль</th>
+          <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <form method="POST" th:action="@{/admin/person/editrole/{id}(id=${user.getId()})}" th:each="user : ${person}">
+
+          <tr>
+            <td><a th:href="@{/admin/person/info/{id}(id=${user.getId()})}" th:text="${user.getId()}"></a></td>
+            <td><a th:href="@{/admin/person/info/{id}(id=${user.getId()})}" th:text="${user.getLogin()}"></a></td>
+            <!--                <td th:text="${user.getPassword()}"></td>-->
+            <td th:text="${user.getFirstname()}"></td>
+            <td th:text="${user.getLastname()}"></td>
+            <td th:text="${user.getEmail()}"></td>
+            <td th:text="${user.getPhoneNumber()}"></td>
+            <td th:text="${user.getRole()}"></td>
+            <td>
+              <select name="role" id="role">
+                <option th:value="ROLE_USER" th:text="Пользователь"
+                        th:selected="${user.getRole()} == 'ROLE_USER' ? true : false" ></option>
+                <option th:value="ROLE_SELLER" th:text="Продавец"
+                        th:selected="${user.getRole()} == 'ROLE_SELLER' ? true : false"></option>
+                <option th:value="ROLE_ADMIN" th:text="Администратор"
+                        th:selected="${user.getRole()} == 'ROLE_ADMIN' ? true : false"></option>
+              </select>
+            </td>
+            <td>
+              <button id="change" class="btn btn-outline-warning" type="submit">Изменить
+              </button>
+            </td>
+          </tr>
+
+        </form>
+        </tbody>
+      </table>
+
+    </div>
+  </div>
+</div>
 
 </body>
 </html>

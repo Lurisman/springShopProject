@@ -1,21 +1,37 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Корзина</title>
+
+    <link th:href="@{/assets/dist/css/bootstrap.min.css}" rel="stylesheet">
+
 </head>
-<body>
-<h3>Корзина товаров</h3>
-<div th:each="product : ${cart_product}">
-    <img th:src="'/img/' + ${product.imageList[0].getFileName()}" width="300px">
-    <br>
-    <br>
-    <a th:href="@{/product/info/{id}(id=${product.getId()})}" th:text="${product.getTitle()}"></a>
-    <p th:text="'Цена: ' + ${product.getPrice()}"></p>
-    <a th:href="@{/cart/delete/{id}(id=${product.getId()})}">Удалить</a>
+<body class="bg-light">
+<div class="container">
+    <main>
+        <div class="py-5 text-center">
+            <img class="d-block mx-auto mb-4" th:src="@{/assets/brand/logo.png}" alt="" width="72" height="57">
+            <h2>Корзина</h2>
+        </div>
+        <div class="py-5 text-center" th:each="product : ${cart_product}">
+            <img th:src="'/img/' + ${product.imageList[0].getFileName()}" width="300px">
+            <br>
+            <br>
+            <a th:href="@{/product/info/{id}(id=${product.getId()})}" th:text="${product.getTitle()}"></a>
+            <p th:text="'Цена: ' + ${product.getPrice()}"></p>
+            <a th:href="@{/cart/delete/{id}(id=${product.getId()})}" type="button" class="btn btn-danger">Удалить</a>
+        </div>
+        <div class="py-5 text-center">
+        <h3 th:text="'Итоговая цена: ' + ${price}"></h3>
+        </div>
+        <div class="py-5 text-center">
+            <a href="/order/create" class="btn btn-primary btn-lg" type="button">Оформить заказ</a>
+            <a href="/index" class="btn btn-secondary btn-lg" type="button">Вернуться в каталог</a>
+
+        </div>
 </div>
-<h3 th:text="'Итоговая цена: ' + ${price}"></h3>
-<a href="/order/create">Оформить заказ</a>
-<a href="/index">Назад ко всем товарам</a>
+
 </body>
 </html>

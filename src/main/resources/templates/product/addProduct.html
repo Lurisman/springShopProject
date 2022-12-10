@@ -3,31 +3,61 @@
 <head>
     <meta charset="UTF-8">
     <title>Добавление товара</title>
-</head>
-<body>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="/examples/libs/jquery/jquery-3.6.0.min.js"></script>
+    <script src="/examples/libs/bootstrap-4/js/bootstrap.bundle.js"></script>
+    <link th:href="@{/assets/dist/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/assets/start.css}" rel="stylesheet">
+    <link th:href="@{/assets/header.css}" rel="stylesheet">
+    <link th:href="@{/assets/product.css}" rel="stylesheet">
+
+<body class="text-center">
+
+<div class="container">
+    <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
+        <a href="/seller" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
+            <img class="mb-4" th:src="@{/assets/brand/logo.png}" alt="" width="48" height="36">
+            <span class="mb-3"><h3>&nbsp;	Ultimate Shop</h3></span>
+        </a>
+
+        <ul class="nav nav-pills">
+            <li class="nav-item"><a th:href="@{/seller/product/add}" class="btn btn-warning"
+                                    aria-current="page">Добавить товар
+            </a></li>
+            <li class="nav-item"><a th:href="@{/index}" class="nav-link"
+                                    aria-current="page">Вернуться в аккаунт
+            </a></li>
+            <li
+                    class="nav-item"><a th:href="@{/auth/password/changepersonal}" class="nav-link" aria-current="page">Сменить
+                пароль</a></li>
+            <li class="nav-item"><a th:href="@{/auth/login}" class="nav-link" aria-current="page">Выйти</a></li>
+        </ul>
+    </header>
+</div>
+
 <h3>Добавление товара</h3>
 <form th:method="POST" th:action="@{/seller/product/add}" th:object="${product}" enctype="multipart/form-data">
-    <label for="title">Введите наименование: </label>
+    <label for="title">Введите наименование: </label><br>
     <input type="text" th:field="*{title}" placeholder="Наименование" id="title">
     <div style="color: red" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></div>
     <br>
     <br>
-    <label for="description">Введите описание: </label>
+    <label for="description">Введите описание: </label><br>
     <textarea th:field="*{description}" placeholder="Описание" id="description"></textarea>
     <div style="color: red" th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></div>
     <br>
     <br>
-    <label for="price">Введите цену: </label>
+    <label for="price">Введите цену: </label><br>
     <input type="number" th:field="*{price}" min="1" step="0.00" id="price">
     <div style="color: red" th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></div>
     <br>
     <br>
-    <label for="warehouse">Введите информацию о складе: </label>
+    <label for="warehouse">Введите информацию о складе: </label><br>
     <input type="text" th:field="*{warehouse}" placeholder="Склад" id="warehouse">
     <div style="color: red" th:if="${#fields.hasErrors('warehouse')}" th:errors="*{warehouse}"></div>
     <br>
     <br>
-    <label for="category">Выберите категорию товара: </label>
+    <label for="category">Выберите категорию товара: </label><br>
     <select name="category" th:field="*{category}" id="category">
         <div th:each="element : ${category}">
             <option th:text="${element.getName()}" th:value="${element.getId()}"></option>
@@ -36,7 +66,7 @@
     </select>
     <br>
     <br>
-    <label for="seller">Введите данные о продавце: </label>
+    <label for="seller">Введите данные о продавце: </label><br>
     <textarea th:field="*{seller}" placeholder="Продавец" id="seller"></textarea>
     <div style="color: red" th:if="${#fields.hasErrors('seller')}" th:errors="*{seller}"></div>
     <br>
@@ -47,9 +77,10 @@
     <input type="file" name="file_three">
     <input type="file" name="file_four">
     <input type="file" name="file_five">
-    <input type="submit" value="Добавить">
+    <br><br><br>
+    <button id="change" class="btn btn-warning" type="submit">Примениь изменения
+    </button>
 </form>
 
-<a href="/index">Назад ко всем товарам</a>
 </body>
 </html>

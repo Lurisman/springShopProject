@@ -1,87 +1,117 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
   <title>Заказы</title>
-  </head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="/examples/libs/jquery/jquery-3.6.0.min.js"></script>
+  <script src="/examples/libs/bootstrap-4/js/bootstrap.bundle.js"></script>
+  <link th:href="@{/assets/dist/css/bootstrap.min.css}" rel="stylesheet">
+  <link th:href="@{/assets/start.css}" rel="stylesheet">
+  <link th:href="@{/assets/header.css}" rel="stylesheet">
+  <link th:href="@{/assets/product.css}" rel="stylesheet">
+</head>
 <body>
 
-<h3>История заказов: </h3>
+<div class="container">
+  <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
+    <a href="/index" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
+      <img class="mb-4" th:src="@{/assets/brand/logo.png}" alt="" width="48" height="36">
+      <span class="mb-3"><h3>&nbsp;	Ultimate Shop</h3></span>
+    </a>
 
+    <ul class="nav nav-pills">
 
-<h4>Поиск по номеру заказа</h4>
-<form method="post" th:action="@{/admin/orders/search}">
-  <label for="findOrder">Введите последние 4 символа заказа:  </label>
-  <input type="text"  th:value="*{search_value}" name="search_value" id="findOrder">
-  <button type="submit">Поиск</button>
-</form>
-
-<h3>Результат поиска</h3>
-<div th:each="order : ${search_order}">
-  <p th:text="'id=' + ${order.getId()}"></p>
-  <p th:text="'DateTime: ' + ${order.getDateTime()}"></p>
-  <!--    <img th:src="'/img/' + ${order.getProduct().imageList[0].getFileName()}" width="300px">-->
-  <p th:text="'Наименование: ' + ${order.getProduct().getTitle()}"></p>
-  <p th:text="'Количество: ' + ${order.getCount()}"></p>
-  <p th:text="'Цена: ' + ${order.getPrice()}"></p>
-  <!--    <p th:text="'Покупатель: ' + ${order.getPerson().getLogin()}"></p>-->
-  <p>Покупатель:  <a th:href="@{/admin/person/info/{id}(id=${order.getPerson().getId()})}" th:text="${order.getPerson().getLogin()}"></a></p>
-  <p th:text="'Заказ № ' + ${order.getNumber()}"></p>
-  <p th:text="'Дата заказа: ' + ${#temporals.format(order.getDateTime(), 'dd-MMM-yyyy')}"></p>
-  <p th:text="'Статус: ' + ${order.getStatus()}"></p>
-  <!--    <a th:href="@{/admin/person/edit/{id}(id=${person.getId()})}">Редактировать пользователя</a>-->
-  <hr>
+      <li
+              class="nav-item"><a th:href="@{/admin/person}" class="nav-link" aria-current="page">Пользователи
+      </a></li>
+      <li
+              class="nav-item"><a th:href="@{/admin/orders}" class="nav-link active" aria-current="page">Заказы</a></li>
+      <li
+              class="nav-item"><a th:href="@{/auth/password/changepersonal}" class="nav-link"
+                                  aria-current="page">Свой
+        пароль</a></li>
+      <li
+              class="nav-item"><a th:href="@{/admin/product/add}" class="nav-link" aria-current="page">Добавить товар</a></li>
+      <li class="nav-item"><a th:href="@{/auth/login}" class="nav-link" aria-current="page">Выйти</a></li>
+    </ul>
+  </header>
 </div>
-<hr>
-
-<h3>Все заказы: </h3>
-<table>
-  <thead>
-  <tr>
-    <th>id</th>
-    <th>Дата</th>
-    <th>Товар</th>
-    <th>Количество</th>
-    <th>Стоимость</th>
-    <th>Покупатель</th>
-    <th>Номер заказа</th>
-    <th>Статус (текущий)</th>
-    <th>Новый статус</th>
-    <th></th>
-  </tr>
-  </thead>
-  <tbody>
-  <form method="POST" th:action="@{/admin/order/editstatus/{id}(id=${order.getId()})}" th:each="order : ${orders}">
-
-    <tr>
-      <td><a th:href="@{/admin/order/info/{id}(id=${order.getId()})}" th:text="${order.getId()}"></a></td>
-      <td th:text="${order.getDateTime()}"></td>
-      <td th:text="${order.getStatus()}"></td>
-      <td th:text="${order.getProduct().getTitle()}"></td>
-      <td th:text="${order.getCount()}"></td>
-      <td th:text="${order.getPrice()}"></td>
-      <!--    <p th:text="'Покупатель: ' + ${order.get&#45;&#45;&#45;&#45;()}"/></p>-->
-      <td th:text="${order.getNumber()}"></td>
-      <td th:text="${#temporals.format(order.getDateTime(), 'dd-MMM-yyyy')}"></td>
-      <td th:text="${order.getStatus()}"></td>
-      <!--                <td>-->
-      <!--                    <select name="role" id="role">-->
-      <!--                        <option th:value="ROLE_USER" th:text="ROLE_USER" th:selected="${user.getRole()} == 'ROLE_USER' ? true : false" ></option>-->
-      <!--                        <option th:value="ROLE_SELLER" th:text="ROLE_SELLER" th:selected="${user.getRole()} == 'ROLE_SELLER' ? true : false"></option>-->
-      <!--                        <option th:value="ROLE_ADMIN" th:text="ROLE_ADMIN" th:selected="${user.getRole()} == 'ROLE_ADMIN' ? true : false"></option>-->
-      <!--                    </select>-->
-      <!--                </td>-->
-      <!--                <td>-->
-      <!--                    <button type="submit">Изменить</button>-->
-      <!--                </td>-->
-    </tr>
-
-  </form>
-  </tbody>
-</table>
 
 
-<hr>
-<a href="/index">Назад в Главное меню</a>
+<div class="container my-5">
+  <div class="row p-4 pb-0 pe-lg-0 pt-lg-5 align-items-center rounded-3 border shadow-lg">
+    <div class="col-lg-7 p-3 p-lg-5 pt-lg-3">
+      <h1 class="display-4 fw-bold lh-1">Поиск заказов</h1>
+      <p class="lead">Введите последние 4 символа заказа:</p>
+      <div class="d-grid gap-2 d-md-flex justify-content-md-start mb-4 mb-lg-3">
+        <form method="post" th:action="@{/admin/orders/search}">
+          <input type="text"  th:value="*{search_value}" name="search_value" id="findOrder">
+          <br> <br>
+         <center> <button class="btn btn-primary" type="submit">Поиск
+         </button></center>
+        </form>
+      </div>
+    </div>
+    <div class="col-lg-4 offset-lg-1 p-0 ">
+      <h5>Результат поиска</h5>
+      <div th:each="order : ${search_order}">
+        <p th:text="'id=' + ${order.getId()}"></p>
+        <p th:text="'DateTime: ' + ${order.getDateTime()}"></p>
+        <p th:text="'Наименование: ' + ${order.getProduct().getTitle()}"></p>
+        <p th:text="'Количество: ' + ${order.getCount()}"></p>
+        <p th:text="'Цена: ' + ${order.getPrice()}"></p>
+        <p>Покупатель:  <a th:href="@{/admin/person/info/{id}(id=${order.getPerson().getId()})}" th:text="${order.getPerson().getLogin()}"></a></p>
+        <p th:text="'Заказ № ' + ${order.getNumber()}"></p>
+        <p th:text="'Дата заказа: ' + ${#temporals.format(order.getDateTime(), 'dd-MMM-yyyy')}"></p>
+        <p th:text="'Статус: ' + ${order.getStatus()}"></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  <div class="px-4 py-5 my-5 text-center">
+    <h1 class="display-5 fw-bold">История заказов</h1>
+    <div class="col-lg-6 mx-auto">
+      <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+        <table>
+          <thead>
+          <tr>
+            <th>id</th>
+            <th>Дата</th>
+            <th>Товар</th>
+            <th>Количество</th>
+            <th>Стоимость</th>
+            <th>Номер заказа</th>
+            <th>Статус (текущий)</th>
+            <th></th>
+          </tr>
+          </thead>
+          <tbody>
+          <form method="POST" th:action="@{/admin/order/editstatus/{id}(id=${order.getId()})}" th:each="order : ${orders}">
+
+            <tr>
+              <td><a th:href="@{/admin/order/info/{id}(id=${order.getId()})}" th:text="${order.getId()}"></a></td>
+              <td th:text="${order.getDateTime()}"></td>
+              <td th:text="${order.getProduct().getTitle()}"></td>
+              <td th:text="${order.getCount()}"></td>
+              <td th:text="${order.getPrice()}"></td>
+              <td th:text="${order.getNumber()}"></td>
+              <td th:text="${order.getStatus()}"></td>
+            </tr>
+
+          </form>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+
+
 </body>
 </html>

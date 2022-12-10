@@ -2,63 +2,202 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Список товаров: </title>
+    <title>Главная</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="/examples/libs/jquery/jquery-3.6.0.min.js"></script>
+    <script src="/examples/libs/bootstrap-4/js/bootstrap.bundle.js"></script>
+    <link th:href="@{/assets/dist/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/assets/start.css}" rel="stylesheet">
+    <link th:href="@{/assets/header.css}" rel="stylesheet">
+    <link th:href="@{/assets/product.css}" rel="stylesheet">
+
 </head>
 <body>
-<a href="/auth/login">Авторизация</a>
-<br>
-<form th:method="POST" th:action="@{/product/search}">
-<fieldset>
-    <legend>Выберите параметры для сортировки, поиска, фильтрации</legend>
-    <br>
-    <label for="search">Поиск по наименованию</label>
-    <input type="search" name="search"  th:value="*{value_search}" id="search">
-    <br>
-    <p>Цена, ₽</p>
-    <label for="ot">От</label>
-    <input type="text" name="ot"  th:value="*{value_price_ot}" id="ot">
-    <label for="do">До</label>
-    <input type="text" name="do"  th:value="*{value_price_do}" id="do">
-    <br>
-    <br>
-    <input type="radio" id="ascending_price" name="price" value="sorted_by_ascending_price">
-    <label for="ascending_price">Отсортировать по возрастанию цены</label>
-    <br>
-    <br>
-    <input type="radio" id="descending_price" name="price" value="sorted_by_descending_price">
-    <label for="descending_price">Отсортировать по убыванию цены</label>
-    <p>Категория товаров: </p>
-    <input type="radio" id="notebook" name="category" value="notebook">
-    <label for="notebook">Ноутбуки</label>
-    <br>
-    <br>
-    <input type="radio" id="phone" name="category" value="phone">
-    <label for=phone>Телефоны</label>
-    <br>
-    <br>
-    <input type="radio" id="smartwatches" name="category" value="smartwatches">
-    <label for="smartwatches">Умные часы</label>
-    <br>
-    <br>
-    <input type="submit" value="Найти">
-</fieldset>
-</form>
-<h3>Результат: </h3>
-<div th:each="product : ${search_product}">
-    <img th:src="'/img/' + ${product.imageList[0].getFileName()}" width="300px">
-    <br>
-    <br>
-    <a th:href="@{/product/info/{id}(id=${product.getId()})}" th:text="${product.getTitle()}"></a>
-    <p th:text="'Цена: ' + ${product.getPrice()}"></p>
+
+<div class="container">
+    <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
+        <a href="/product" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
+            <img class="mb-4" th:src="@{/assets/brand/logo.png}" alt="" width="48" height="36">
+            <span class="mb-3"><h3>&nbsp;	Ultimate Shop</h3></span>
+        </a>
+
+        <ul class="nav nav-pills">
+            <li class="nav-item"><a th:href="@{/product}" class="nav-link active" aria-current="page">Главная</a></li>
+            <li class="nav-item"><a th:href="@{/cart}" class="nav-link" aria-current="page">Корзина</a></li>
+            <li class="nav-item"><a th:href="@{/orders}" class="nav-link" aria-current="page">Мои заказы</a></li>
+            <li
+                    class="nav-item"><a th:href="@{/auth/password/changepersonal}" class="nav-link" aria-current="page">Сменить
+                пароль</a></li>
+            <li class="nav-item"><a th:href="@{/auth/login}" class="nav-link" aria-current="page">Войти</a></li>
+        </ul>
+    </header>
 </div>
-<hr>
-<h3>Доступные товары: </h3>
-<div th:each="product : ${products}">
-    <img th:src="'/img/' + ${product.imageList[0].getFileName()}" width="300px">
-    <br>
-    <br>
-    <a th:href="@{/product/info/{id}(id=${product.getId()})}" th:text="${product.getTitle()}" id="title"></a>
-    <p th:text="'Цена: ' + ${product.getPrice()}"></p>
+
+
+<div class="container my-5">
+    <div class="row p-4 pb-0 pe-lg-0 pt-lg-5 align-items-center rounded-3 border shadow-lg">
+        <div class="col-lg-7 p-3 p-lg-5 pt-lg-3">
+            <center><h1 class="display-4 fw-bold lh-1">Поиск</h1></center>
+            <center> <p class="lead">Выберите параметры для сортировки, поиска и фильтрации</p></center>
+            <form th:method="POST" th:action="@{/search}">
+                <fieldset>
+                    <br>
+                    <label for="search">Наименование продукта: </label><br>
+                    <input type="search" name="search"  th:value="*{value_search}" id="search">
+                    <br><br>
+                    <p>Цена продукта</p>
+                    <label for="ot">От</label>
+                    <input type="text" name="ot" style="width: 100px" th:value="*{value_price_ot}"
+                           id="ot">
+                    <label for="do">До</label>
+                    <input type="text" name="do" style="width: 100px" th:value="*{value_price_do}" id="do">
+                    <br>
+                    <br>
+                    <hr>
+                    <input type="radio" id="ascending_price" name="price" value="sorted_by_ascending_price">
+                    <label for="ascending_price">Отсортировать по возрастанию цены</label>
+                    <br>
+                    <br>
+                    <input type="radio" id="descending_price" name="price" value="sorted_by_descending_price">
+                    <label for="descending_price">Отсортировать по убыванию цены</label>
+                    <hr>
+                    <p>Категория товаров: </p>
+                    <input type="radio" id="notebook" name="category" value="notebook">
+                    <label for="notebook">Ноутбуки</label>
+                    <br>
+                    <br>
+                    <input type="radio" id="phone" name="category" value="phone">
+                    <label for=phone>Телефоны</label>
+                    <br>
+                    <br>
+                    <input type="radio" id="smartwatches" name="category" value="smartwatches">
+                    <label for="smartwatches">Умные часы</label>
+                    <br>
+                    <br>
+                    <button type="submit" class="btn btn-outline-secondary btn-lg px-4">Найти</button>
+                </fieldset>
+            </form>
+        </div>
+        <div class="col-lg-4 lg-1 p-0">
+            <h3>Результаты поиска: </h3>
+            <div th:each="product : ${search_product}">
+                <img th:src="'/img/' + ${product.imageList[0].getFileName()}" width="300px">
+                <br>
+                <br>
+                <h3><a th:href="@{/product/info/{id}(id=${product.getId()})}" th:text="${product.getTitle()}"></a></h3>
+                <b><p th:text="'Цена: ' + ${product.getPrice()} + '₽'"></p></b>
+            </div>
+        </div>
+    </div>
+</div>
+
+<main>
+    <div class="d-md-flex flex-md-equal w-100 my-md-3 ps-md-3">
+        <div class="bg-light me-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden">
+            <div class="my-3 p-3">
+                <h2 class="display-5">Pixel 7 Pro</h2>
+                <p class="lead"><b>Цена: 69999.0</b></p>
+                <a href="/product/info/1" class="btn btn-outline-info" type="button">Подробнее</a>
+                <a href="/cart/add/1" class="btn btn-outline-primary" type="button">Добавить в корзину</a>
+            </div>
+            <div class="bg-body shadow-sm mx-auto" style="width: 300px; height: 100%; border-radius: 21px 21px 0 0;"><img
+                    src="/img/be9c00a6-d69a-461a-ad60-425d5d54050d.pixel7pro1.jpg" width="300px"></div>
+
+        </div>
+        <div class="bg-light me-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden">
+            <div class="my-3 py-3">
+                <h2 class="display-5">Pixel 7</h2>
+                <p class="lead"> <b>Цена: 49999.0</b></p>
+                <a href="/product/info/4" class="btn btn-outline-info" type="button">Подробнее</a>
+                <a href="/cart/add/4" class="btn btn-outline-primary" type="button">Добавить в корзину</a>
+            </div>
+            <div class="bg-body shadow-sm mx-auto" style="width: 300px; height: 100%; border-radius: 21px 21px 0 0;"><img src="/img/61b44aa4-8537-40af-928e-a0ebe08ba731.1.jpg" width="300px"></div>
+        </div>
+        <div class="bg-light me-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden">
+            <div class="my-3 py-3">
+                <h2 class="display-5">Pixel 6a</h2>
+                <p class="lead"><b>Цена: 29990.0</b></p>
+                <a href="/product/info/5" class="btn btn-outline-info" type="button">Подробнее</a>
+                <a href="/cart/add/5" class="btn btn-outline-primary" type="button">Добавить в корзину</a>
+            </div>
+            <div class="bg-body shadow-sm mx-auto" style="width: 300px; height: 100%; border-radius: 21px 21px 0 0;"><img src="/img/aba3708d-8ffd-48db-a687-a6f63a9cc0ac.1.jpg" width="300px"></div>
+        </div>
+    </div>
+
+    <div class="d-md-flex flex-md-equal w-100 my-md-3 ps-md-3">
+        <div class="bg-light me-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden">
+            <div class="my-3 p-3">
+                <h2 class="display-5">Pixelbook Go</h2>
+                <p class="lead"><b>Цена: 55450.0</b></p>
+                <a href="/product/info/6" class="btn btn-outline-info" type="button">Подробнее</a>
+                <a href="/cart/add/6" class="btn btn-outline-primary" type="button">Добавить в корзину</a>
+            </div>
+            <div class="bg-body shadow-sm mx-auto"
+                 style="width: 300px; height: 100%; border-radius: 21px 21px 0 0;"><img src="/img/b66d3346-b2b7-46ae-89ca-1629712a1787.1.jpg" width="300px"></div>
+        </div>
+        <div class="bg-light me-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden">
+            <div class="my-3 py-3">
+                <h2 class="display-5">Samsung Galaxy Chromebook 2</h2>
+                <p class="lead"> <b>Цена: 29000.0</b></p>
+                <a href="/product/info/7" class="btn btn-outline-info" type="button">Подробнее</a>
+                <a href="/cart/add/7" class="btn btn-outline-primary" type="button">Добавить в корзину</a>
+            </div>
+            <div class="bg-body shadow-sm mx-auto" style="width: 300px; height: 100%; border-radius: 21px 21px 0 0;"><img src="/img/8e570b03-fbac-42a7-a2f5-283ec12dd001.1.jpg" width="300px"></div>
+        </div>
+        <div class="bg-light me-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden">
+            <div class="my-3 py-3">
+                <h2 class="display-5">HP Chromebook</h2>
+                <p class="lead"><b>Цена: 29000.0</b></p>
+                <a href="/product/info/8" class="btn btn-outline-info" type="button">Подробнее</a>
+                <a href="/cart/add/8" class="btn btn-outline-primary" type="button">Добавить в корзину</a>
+            </div>
+            <div class="bg-body shadow-sm mx-auto" style="width: 300px; height: 100%; border-radius: 21px 21px 0 0;"><img src="/img/396e9b91-08b4-4974-be68-72dc53117abb.1.jpg" width="300px"></div>
+        </div>
+    </div>
+
+    <div class="d-md-flex flex-md-equal w-100 my-md-3 ps-md-3">
+        <div class="bg-light me-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden">
+            <div class="my-3 p-3">
+                <h2 class="display-5">Pixel Watch Black</h2>
+                <p class="lead"><b>Цена: 32900.0</b></p>
+                <a href="/product/info/9" class="btn btn-outline-info" type="button">Подробнее</a>
+                <a href="/cart/add/9" class="btn btn-outline-primary" type="button">Добавить в корзину</a>
+            </div>
+            <div class="bg-body shadow-sm mx-auto"
+                 style="width: 300px; height: 100%; border-radius: 21px 21px 0 0;"><img src="/img/e8902a38-7b6a-48f0-b447-76eb77af9a06.1.jpg" width="300px">></div>
+        </div>
+        <div class="bg-light me-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden">
+            <div class="my-3 py-3">
+                <h2 class="display-5">Pixel Watch Gold</h2>
+                <p class="lead"> <b>Цена: 34900.0</b></p>
+                <a href="/product/info/10" class="btn btn-outline-info" type="button">Подробнее</a>
+                <a href="/cart/add/10" class="btn btn-outline-primary" type="button">Добавить в корзину</a>
+            </div>
+            <div class="bg-body shadow-sm mx-auto" style="width: 300px; height: 100%; border-radius: 21px 21px 0 0;"><img src="/img/362cb45b-38a3-4d76-95ad-6b241b548f50.1.jpg" width="300px"></div>
+        </div>
+        <div class="bg-light me-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden">
+            <div class="my-3 py-3">
+                <h2 class="display-5">Pixel Watch Silver</h2>
+                <p class="lead"><b>Цена: 33900.0</b></p>
+                <a href="/product/info/11" class="btn btn-outline-info" type="button">Подробнее</a>
+                <a href="/cart/add/11" class="btn btn-outline-primary" type="button">Добавить в корзину</a>
+            </div>
+            <div class="bg-body shadow-sm mx-auto" style="width: 300px; height: 100%; border-radius: 21px 21px 0 0;"><img src="/img/b47b49d0-c654-4bea-ac81-34a9dc9e52f6.1.jpg" width="300px"></div>
+        </div>
+    </div>
+</main>
+
+<br><hr>
+<!--<h3>Доступные товары: </h3>-->
+<!--<div th:each="product : ${products}">-->
+<!--    <img th:src="'/img/' + ${product.imageList[0].getFileName()}" width="300px">-->
+<!--    <br>-->
+<!--    <br>-->
+<!--    <a th:href="@{/user/product/info/{id}(id=${product.getId()})}" th:text="${product.getTitle()}" id="title"></a>-->
+<!--    <p th:text="'Цена: ' + ${product.getPrice()}"></p>-->
+<!--    <a th:href="@{/cart/add/{id}(id=${product.getId()})}">Добавить в корзину</a>-->
+<!--    <hr>-->
+<!--</div>-->
 </div>
 </body>
 </html>

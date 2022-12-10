@@ -57,8 +57,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //                .antMatchers("/user").hasAnyRole("USER")
                 // Указываем что не аутентифицированные пользователи могут заходить на страницу с формой аутентификации и на объект ошибки
                 // С помощью permitAll указывакем что данные страницы по умолчанию доступны всем пользователям
-                .antMatchers("/auth/login", "/error", "/auth/registration", "/product", "/product/info/{id}", "/img" +
-                        "/**", "/product/search", "/auth/password/change").permitAll()
+                .antMatchers("/auth/login", "/auth/hi", "/error", "/auth/registration", "/product", "/product/info" +
+                        "/{id}", "/img" +
+                        "/**", "/product/search", "/auth/password/change", "/static/**", "/static/assets/**",
+                        "/static/assets/brand/**", "/static/templates/**", "templates/**", "/static/img/**", "/assets" +
+                                "/dist/css/**", "/resources/static/img/**", "/assets/dist" +
+                                "/css/**", "/assets/**", "/assets/brand/**", "/search/**").permitAll()
                 // Указываем что все остальные страницы доступны пользователю с ролью user и admin
                 .anyRequest().hasAnyRole("USER", "ADMIN", "SELLER")
 //                // Указываем что для всех остальных страниц необходимо вызывать метод authenticated, который открываем форму аутентификации
@@ -84,7 +88,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(WebSecurity web) throws Exception {
         web
                 .ignoring()
-                .antMatchers("/resources/**", "/static/**", "/img/**", "/css/**", "/js/**");
+                .antMatchers("/resources/**", "/static/**", "/static/assets/**", "/static/assets/brand/**", "/img/**",
+                        "/css/**", "/js/**", "/static/templates/**", "/templates/**", "/resources/static/img/**", "/assets/dist" +
+                                "/css/**", "/assets/**", "/assets/brand/**", "/product", "/product/info" +
+                                "/{id}", "/product/search", "/search/**");
     }
 
     @Bean

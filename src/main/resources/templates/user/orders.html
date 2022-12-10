@@ -1,12 +1,22 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Заказы</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Мои заказы</title>
+
+    <link th:href="@{/assets/dist/css/bootstrap.min.css}" rel="stylesheet">
+
 </head>
-<body>
-<h3>Заказы</h3>
-<div th:each="order : ${orders}">
+<body class="bg-light">
+<div class="container">
+    <main>
+        <div class="py-5 text-center">
+            <img class="d-block mx-auto mb-4" th:src="@{/assets/brand/logo.png}" alt="" width="72" height="57">
+            <h2>Корзина</h2>
+        </div>
+
+        <div class="py-5 text-center" th:each="order : ${orders}">
     <h3 th:text="'Заказ № ' + ${order.getNumber()}"></h3>
     <img th:src="'/img/' + ${order.getProduct().imageList[0].getFileName()}" width="300px">
     <p th:text="'Наименование: ' + ${order.getProduct().getTitle()}"></p>
@@ -16,6 +26,12 @@
     <p th:text="'Статус: ' + ${order.getStatus()}"></p>
     <hr>
 </div>
-<a href="/index">Назад ко всем товарам</a>
+
+        <div class="py-5 text-center">
+
+            <a href="/index" class="btn btn-secondary btn-lg" type="button">Вернуться в каталог</a>
+
+        </div>
+
 </body>
 </html>
