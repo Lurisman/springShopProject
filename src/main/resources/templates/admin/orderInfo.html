@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Информация о товаре</title>
+  <title>Информация о заказе</title>
 
   <link th:href="@{/assets/dist/css/bootstrap.min.css}" rel="stylesheet">
 
@@ -24,7 +24,7 @@
   <div th:each="order:${info_order}">
     <h3>Информация о заказе <p th:text="${info_order.getNumber()}"/></h3>
     <p th:text="'id=' + ${order.getId()}"></p>
-    <p th:text="'DateTime: ' + ${order.getDateTime()}"></p>
+    <p th:text="'Дата: ' + ${order.getDateTime()}"></p>
     <p th:text="'Наименование товаров: ' + ${order.getProduct().getTitle()}"></p>
     <p th:text="'Количество: ' + ${order.getCount()}"></p>
     <p th:text="'Цена: ' + ${order.getPrice()}"></p>
