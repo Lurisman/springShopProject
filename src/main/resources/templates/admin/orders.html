@@ -56,7 +56,7 @@
     <div class="col-lg-4 offset-lg-1 p-0 ">
       <h5>Результат поиска</h5>
       <div th:each="order : ${search_order}">
-        <p th:text="'id=' + ${order.getId()}"></p>
+        <b><p th:text="'id=' + ${order.getId()}"></p></b>
         <p th:text="'Дата: ' + ${order.getDateTime()}"></p>
         <p th:text="'Наименование: ' + ${order.getProduct().getTitle()}"></p>
         <p th:text="'Количество: ' + ${order.getCount()}"></p>
@@ -64,7 +64,8 @@
         <p>Покупатель:  <a th:href="@{/admin/person/info/{id}(id=${order.getPerson().getId()})}" th:text="${order.getPerson().getLogin()}"></a></p>
         <p th:text="'Заказ № ' + ${order.getNumber()}"></p>
         <p th:text="'Дата заказа: ' + ${#temporals.format(order.getDateTime(), 'dd-MMM-yyyy')}"></p>
-        <p th:text="'Статус: ' + ${order.getStatus()}"></p>
+        <b> <p th:text="'Статус: ' + ${order.getStatus()}"></p></b>
+        <hr>
       </div>
     </div>
   </div>
