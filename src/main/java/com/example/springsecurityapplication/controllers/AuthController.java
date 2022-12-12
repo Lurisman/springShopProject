@@ -80,10 +80,10 @@ public class AuthController {
     @PostMapping("/password/changepersonal")
     public String changePasswordPersonal(@ModelAttribute("person") @Valid Person person, BindingResult bindingResult, Model model){
         personValidator.findUser(person, bindingResult);
-        if(bindingResult.hasErrors()){
-            model.addAttribute("login", SecurityContextHolder.getContext().getAuthentication().getName());
-            return "passwordPersonal";
-        }
+//        if(bindingResult.hasErrors()){
+//            model.addAttribute("login", SecurityContextHolder.getContext().getAuthentication().getName());
+//            return "passwordPersonal";
+//        }
 
         Person person_db = personService.getPersonFindByLogin(person);
         int id = person_db.getId();
