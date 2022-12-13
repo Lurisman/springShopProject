@@ -36,12 +36,12 @@
 <div class="container my-5">
     <div class="row p-4 pb-0 pe-lg-0 pt-lg-5 align-items-center rounded-3 border shadow-lg">
         <div class="col-lg-7 p-3 p-lg-5 pt-lg-3">
-            <center><h1 class="display-4 fw-bold lh-1">Поиск</h1></center>
-            <center> <p class="lead">Выберите параметры для сортировки, поиска и фильтрации</p></center>
+            <center><h5 class="display-6 fw-bold lh-1">Поиск</h5></center>
+<!--            <center> <p class="lead">Выберите параметры для сортировки, поиска и фильтрации</p></center>-->
             <form th:method="POST" th:action="@{/search}">
                 <fieldset>
                     <br>
-                    <label for="search">Наименование продукта: </label><br>
+                    <center> <label for="search">Наименование продукта: </label><br>
                     <input type="search" name="search"  th:value="*{value_search}" id="search">
                     <br><br>
                     <p>Цена продукта</p>
@@ -63,22 +63,20 @@
                     <p>Категория товаров: </p>
                     <input type="radio" id="notebook" name="category" value="notebook">
                     <label for="notebook">Ноутбуки</label>
-                    <br>
-                    <br>
+
                     <input type="radio" id="phone" name="category" value="phone">
                     <label for=phone>Телефоны</label>
-                    <br>
-                    <br>
+
                     <input type="radio" id="smartwatches" name="category" value="smartwatches">
                     <label for="smartwatches">Умные часы</label>
                     <br>
                     <br>
-                    <button type="submit" class="btn btn-outline-secondary btn-lg px-4">Найти</button>
+                    <button type="submit" class="btn btn-outline-secondary btn-lg px-4">Найти</button></center>
                 </fieldset>
             </form>
         </div>
         <div class="col-lg-4 lg-1 p-0">
-            <h3>Результаты поиска: </h3>
+            <h4>Результаты поиска: </h4>
             <div th:each="product : ${search_product}">
                 <img th:src="'/img/' + ${product.imageList[0].getFileName()}" width="300px">
                 <br>
