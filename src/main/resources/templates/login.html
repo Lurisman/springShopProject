@@ -20,11 +20,11 @@
         <img class="mb-4" th:src="@{/assets/brand/logo.png}" alt="" width="72" height="57">
         <h1 class="h3 mb-3 fw-normal">Авторизуйтесь</h1>
 
-        <label for="username">Введите логин: </label>
-        <input type="text" placeholder="Введите логин" name="username" id="username">
+      <label for="username">Введите логин: </label>
+        <div class="form-floating"><input type="text" placeholder="Введите логин" name="username" id="username"></div>
         <br>
         <label for="password">Введите пароль: </label>
-        <input type="password" placeholder="Введите пароль" name="password" id="password">
+        <div class="form-floating"> <input type="password" placeholder="Введите пароль" name="password" id="password"></div>
         <div th:if="${param.error}" style="color: red">
             Неправильный логин или пароль
         </div>
